@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Add Product</title>
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/product.css" />
+  </head>
+
+  <body>
+    <header class="main-header">
+      <nav class="main-header__nav">
+        <ul class="main-header__item-list">
+          <li class="main-header__item"><a class="active" href="/">Shop</a></li>
+          <li class="main-header__item">
+            <a href="/admin/add-product">Add Product</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <h1>My Products</h1>
+      <p>List of all the products...</p>
+
+      <h5>Description :</h5>
+      <div id="descriptiondiv">
+        <textarea id="editor1" name="editor1" style="width:500px"></textarea>
+      </div>
+
+      <!-- <div class="grid">
+            <article class="card product-item">
+                <header class="card__header">
+                    <h1 class="product__title">Great Book</h1>
+                </header>
+                <div class="card__image">
+                    <img src="https://cdn.pixabay.com/photo/2016/03/31/20/51/book-1296045_960_720.png" alt="A Book">
+                </div>
+                <div class="card__content">
+                    <h2 class="product__price">$19.99</h2>
+                    <p class="product__description">A very interesting book about so many even more interesting things!</p>
+                </div>
+                <div class="card__actions">
+                    <button class="btn">Add to Cart</button>
+                </div>
+            </article>
+        </div> -->
+    </main>
+  </body>
+</html>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  crossorigin="anonymous"
+></script>
+
+<script src="../ckeditor/ckeditor.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    CKEDITOR.replace('editor1', {
+      filebrowserBrowseUrl:
+        '/ckeditor/plugins/imagebrowser/browser/browser.html',
+      filebrowserUploadUrl: '/upload_url?Type=File',
+      filebrowserImageUploadUrl: '/upload_url?Type=Image',
+      filebrowserFlashUploadUrl: '/upload_url?Type=Flash'
+    });
+
+    var description = CKEDITOR.instances.editor1.getData();
+    console.log(description);
+    var data = { description: description };
+    $.ajax({
+      url: '/backend/api/v1/savedata',
+      method: 'post',
+      data: data,
+      success: function(data) {
+        alert('send data');
+      }
+    });
+  });
+</script>
